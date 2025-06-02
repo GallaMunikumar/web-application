@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V4U HR Portal - Employee Management</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto p-6">
+    <div class="bg-white p-6 rounded-2xl shadow-lg">
+      <h1 class="text-3xl font-bold text-center text-blue-600 mb-6">V4U HR Portal - Employee Management</h1>
+      
+      <form id="employeeForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input type="text" placeholder="Employee ID" required class="border p-2 rounded">
+        <input type="text" placeholder="Full Name" required class="border p-2 rounded">
+        <input type="text" placeholder="Mobile Number" required class="border p-2 rounded">
+        <input type="text" placeholder="Designation" required class="border p-2 rounded">
+        <input type="date" placeholder="Joining Date" required class="border p-2 rounded">
+        <input type="text" placeholder="Bank Name" required class="border p-2 rounded">
+        <input type="text" placeholder="Account Number" required class="border p-2 rounded">
+        <input type="text" placeholder="IFSC Code" required class="border p-2 rounded">
+        <input type="text" placeholder="Aadhar Number" required class="border p-2 rounded">
+        <input type="text" placeholder="PAN Number" required class="border p-2 rounded">
+        <input type="text" placeholder="Blood Group" required class="border p-2 rounded">
+        <button type="submit" class="md:col-span-2 bg-blue-600 text-white p-2 rounded hover:bg-blue-700">Add Employee</button>
+      </form>
+    </div>
+
+    <div class="mt-10 bg-white p-6 rounded-2xl shadow-lg">
+      <h2 class="text-2xl font-semibold text-gray-800 mb-4">Employee List</h2>
+      <div class="overflow-x-auto">
+        <table class="w-full table-auto border border-gray-200">
+          <thead>
+            <tr class="bg-blue-600 text-white">
+              <th class="p-2">ID</th>
+              <th class="p-2">Name</th>
+              <th class="p-2">Mobile</th>
+              <th class="p-2">Designation</th>
+              <th class="p-2">Joining Date</th>
+              <th class="p-2">Bank Name</th>
+              <th class="p-2">Account No</th>
+              <th class="p-2">IFSC</th>
+              <th class="p-2">Aadhar</th>
+              <th class="p-2">PAN</th>
+              <th class="p-2">Blood</th>
+            </tr>
+          </thead>
+          <tbody id="employeeTable" class="text-gray-700"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("employeeForm");
+    const table = document.getElementById("employeeTable");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      const values = Array.from(form.querySelectorAll("input")).map(input => input.value);
+      const row = document.createElement("tr");
+      values.forEach(value => {
+        const td = document.createElement("td");
+        td.className = "p-2 border border-gray-200";
+        td.textContent = value;
+        row.appendChild(td);
+      });
+      table.appendChild(row);
+      form.reset();
+    });
+  </script>
+</body>
+
+</html>
