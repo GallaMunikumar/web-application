@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V4U HR Portal - Employee Management</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6; /* Light gray background */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-8">
+    <div class="bg-white shadow-xl rounded-xl p-6 sm:p-8 md:p-10 w-full max-w-5xl">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 mb-2">V4U HR Portal - Employee List</h1>
+            <p class="text-gray-600">Manage your current and new employees efficiently.</p>
+        </header>
+
+        <section id="current-employees-section" class="mb-8 p-4 bg-gray-50 rounded-lg shadow-inner">
+            <div class="flex flex-col sm:flex-row justify-between items-center mb-4">
+                <h2 class="text-2xl font-semibold text-gray-700 mb-4 sm:mb-0">Current Employees</h2>
+                <button id="add-employee-button" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                    Add New Employee
+                </button>
+            </div>
+
+            <div class="overflow-x-auto rounded-lg border border-gray-200">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                        <tr>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Full Name</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mobile</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Designation</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Joining Date</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">PAN</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Account No.</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="employee-list-body" class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td colspan="8" class="px-4 py-6 text-center text-gray-500 text-lg">
+                                No employees found. Start by adding a new one!
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section id="add-employee-form-section" class="hidden bg-white p-6 rounded-lg shadow-lg border border-gray-200">
+            <h2 class="text-2xl font-semibold text-gray-700 mb-6 text-center">Add New Employee</h2>
+            <form id="employee-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <label for="employee-id" class="block text-sm font-medium text-gray-700 mb-1">Employee ID <span class="text-red-500">*</span></label>
+                    <input type="text" id="employee-id" name="employeeId" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="full-name" class="block text-sm font-medium text-gray-700 mb-1">Full Name <span class="text-red-500">*</span></label>
+                    <input type="text" id="full-name" name="fullName" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="mobile-number" class="block text-sm font-medium text-gray-700 mb-1">Mobile Number <span class="text-red-500">*</span></label>
+                    <input type="tel" id="mobile-number" name="mobileNumber" required pattern="[0-9]{10}" title="Please enter a 10-digit mobile number"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="designation" class="block text-sm font-medium text-gray-700 mb-1">Designation <span class="text-red-500">*</span></label>
+                    <input type="text" id="designation" name="designation" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="joining-date" class="block text-sm font-medium text-gray-700 mb-1">Joining Date <span class="text-red-500">*</span></label>
+                    <input type="date" id="joining-date" name="joiningDate" required
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="bank-name" class="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
+                    <input type="text" id="bank-name" name="bankName"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="account-number" class="block text-sm font-medium text-gray-700 mb-1">Account Number</label>
+                    <input type="text" id="account-number" name="accountNumber"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="ifsc-code" class="block text-sm font-medium text-gray-700 mb-1">IFSC Code</label>
+                    <input type="text" id="ifsc-code" name="ifscCode"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="aadhar-number" class="block text-sm font-medium text-gray-700 mb-1">Aadhar Number</label>
+                    <input type="text" id="aadhar-number" name="aadharNumber" pattern="[0-9]{12}" title="Please enter a 12-digit Aadhar number"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="pan-number" class="block text-sm font-medium text-gray-700 mb-1">PAN Number</label>
+                    <input type="text" id="pan-number" name="panNumber" pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}" title="Please enter a valid PAN number (e.g., ABCDE1234F)"
+                           class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+
+                <div>
+                    <label for="blood-group" class="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
+                    <select id="blood-group" name="bloodGroup"
+                            class="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <option value="">Select Blood Group</option>
+                        <option value="A+">A+</option>
+                        <option value="A-">A-</option>
+                        <option value="B+">B+</option>
+                        <option value="B-">B-</option>
+                        <option value="AB+">AB+</option>
+                        <option value="AB-">AB-</option>
+                        <option value="O+">O+</option>
+                        <option value="O-">O-</option>
+                    </select>
+                </div>
+
+                <div class="col-span-1 md:col-span-2 flex justify-end space-x-4 mt-6">
+                    <button type="button" id="cancel-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                        Cancel
+                    </button>
+                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                        Save Employee
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <div id="message-box" class="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center p-4 z-50 hidden">
+            <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full text-center">
+                <p id="message-box-text" class="text-lg font-semibold text-gray-800 mb-4"></p>
+                <button id="message-box-ok" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-300 ease-in-out">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get references to DOM elements
+        const addEmployeeButton = document.getElementById('add-employee-button');
+        const addEmployeeFormSection = document.getElementById('add-employee-form-section');
+        const currentEmployeesSection = document.getElementById('current-employees-section');
+        const employeeForm = document.getElementById('employee-form');
+        const cancelButton = document.getElementById('cancel-button');
+        const employeeListBody = document.getElementById('employee-list-body');
+        const messageBox = document.getElementById('message-box');
+        const messageBoxText = document.getElementById('message-box-text');
+        const messageBoxOk = document.getElementById('message-box-ok');
+
+        // Array to store employee data (client-side only for this frontend demo)
+        let employees = [];
+
+        /**
+         * Shows a custom message box instead of alert().
+         * @param {string} message - The message to display.
+         */
+        function showMessageBox(message) {
+            messageBoxText.textContent = message;
+            messageBox.classList.remove('hidden');
+        }
+
+        // Event listener for the "Add New Employee" button
+        addEmployeeButton.addEventListener('click', () => {
+            currentEmployeesSection.classList.add('hidden'); // Hide employee list
+            addEmployeeFormSection.classList.remove('hidden'); // Show the form
+            employeeForm.reset(); // Clear form fields
+        });
+
+        // Event listener for the "Cancel" button in the form
+        cancelButton.addEventListener('click', () => {
+            addEmployeeFormSection.classList.add('hidden'); // Hide the form
+            currentEmployeesSection.classList.remove('hidden'); // Show employee list
+        });
+
+        // Event listener for the message box OK button
+        messageBoxOk.addEventListener('click', () => {
+            messageBox.classList.add('hidden');
+        });
+
+        /**
+         * Renders the list of employees in the table.
+         */
+        function renderEmployeeList() {
+            employeeListBody.innerHTML = ''; // Clear existing rows
+
+            if (employees.length === 0) {
+                // Display "No employees found" message if array is empty
+                employeeListBody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="px-4 py-6 text-center text-gray-500 text-lg">
+                            No employees found. Start by adding a new one!
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            employees.forEach((employee, index) => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-gray-50'); // Add hover effect to rows
+                row.innerHTML = `
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${employee.employeeId}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.fullName}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.mobileNumber}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.designation}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.joiningDate}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.panNumber || 'N/A'}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-700">${employee.accountNumber || 'N/A'}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-right text-sm font-medium">
+                        <button onclick="editEmployee(${index})" class="text-blue-600 hover:text-blue-900 mr-2">Edit</button>
+                        <button onclick="deleteEmployee(${index})" class="text-red-600 hover:text-red-900">Delete</button>
+                    </td>
+                `;
+                employeeListBody.appendChild(row);
+            });
+        }
+
+        /**
+         * Handles editing an employee (for demo purposes, just logs).
+         * In a real app, this would populate the form for editing.
+         * @param {number} index - The index of the employee to edit.
+         */
+        function editEmployee(index) {
+            const employeeToEdit = employees[index];
+            showMessageBox(`Editing employee: ${employeeToEdit.fullName} (ID: ${employeeToEdit.employeeId})`);
+            // In a real application, you would populate the form with this data
+            // and change the form's submit action to update instead of add.
+            // For this demo, we just show a message.
+        }
+
+        /**
+         * Handles deleting an employee.
+         * @param {number} index - The index of the employee to delete.
+         */
+        function deleteEmployee(index) {
+            const employeeToDelete = employees[index];
+            const confirmDelete = confirm(`Are you sure you want to delete ${employeeToDelete.fullName}?`); // Using confirm for simplicity in demo
+            if (confirmDelete) {
+                employees.splice(index, 1); // Remove employee from array
+                renderEmployeeList(); // Re-render the list
+                showMessageBox(`${employeeToDelete.fullName} deleted successfully!`);
+            }
+        }
+
+
+        // Event listener for form submission
+        employeeForm.addEventListener('submit', (event) => {
+            event.preventDefault(); // Prevent default form submission
+
+            // Create a FormData object from the form
+            const formData = new FormData(employeeForm);
+            const employeeData = {};
+
+            // Populate employeeData object from form fields
+            for (let [key, value] of formData.entries()) {
+                employeeData[key] = value;
+            }
+
+            // Add the new employee to the array
+            employees.push(employeeData);
+
+            // Log the employee data to the console (for demonstration)
+            console.log('New Employee Added:', employeeData);
+
+            // Re-render the employee list
+            renderEmployeeList();
+
+            // Hide the form and show the employee list
+            addEmployeeFormSection.classList.add('hidden');
+            currentEmployeesSection.classList.remove('hidden');
+
+            // Show success message
+            showMessageBox('Employee added successfully!');
+        });
+
+        // Initial render of the employee list when the page loads
+        document.addEventListener('DOMContentLoaded', renderEmployeeList);
+    </script>
+</body>
+</html>
